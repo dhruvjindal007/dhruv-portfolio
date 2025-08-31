@@ -49,7 +49,7 @@ const Projects: React.FC = () => {
       image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
       tech: ['Laravel', 'PHP', 'MySQL', 'Bootstrap'],
       demoUrl: '#',
-      githubUrl: '#'
+      githubUrl: 'https://github.com/dhruvjindal007/Laravel-Booking-Management-System'
     },
     {
       id: 5,
@@ -58,6 +58,33 @@ const Projects: React.FC = () => {
       image: 'https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=800',
       tech: ['PHP', 'MySQL', 'Bootstrap', 'CKEditor'],
       demoUrl: blog,
+      githubUrl: 'https://github.com/dhruvjindal007/Blogging-platform'
+    },
+    {
+      id: 6,
+      title: 'Remote-Controlled Car',
+      description: 'Designed and built a remote-controlled car with Arduino Uno, IR/RF modules, and L298N motor driver for wireless control and stability. Upgraded an existing RC car with steel chassis, Johnson motors, Li-ion battery pack, and servo mechanisms, enhancing efficiency, durability, and overall performance.',
+      image: 'https://www.theengineerstore.in/cdn/shop/files/Metal-Tank-Robot-Smart-Car-Chassis-Kit-1.jpg?v=1725359358', 
+      tech: ['Arduino', 'IR/RF Modules', 'L298N Motor Driver', 'Johnson Motors', 'Li-ion Battery', 'Servo'],
+      demoUrl: '#',
+      githubUrl: '#'
+    },
+    {
+      id: 7,
+      title: 'Hovercraft',
+      description: 'Created a hovercraft capable of navigating multiple terrains. Designed the structure in Fusion 360, fabricated maneuvering fan components with 3D printing, and applied fluid dynamics and control principles to optimize lift, thrust, and stability.',
+      image: 'https://i.ytimg.com/vi/mpqYlHTlXtA/sddefault.jpg',
+      tech: ['Fusion 360', '3D Printing', 'Fluid Dynamics', 'Control Systems'],
+      demoUrl: '#',
+      githubUrl: '#'
+    },
+    {
+      id: 8,
+      title: 'Solar Mobile Charger',
+      description: 'Built a portable solar-powered charger using a 6V solar panel, MPPT controller, XL6009E1 DC–DC boost converter, and 3.7V Li-ion battery with fuse protection. Delivered stable DC output for off-grid mobile charging and sustainable energy use.',
+      image: 'https://quartzcomponents.com/cdn/shop/articles/Solar-Mobile-Charger_750x.jpg?v=1584511007',
+      tech: ['Solar Panel', 'MPPT Controller', 'DC–DC Converter', 'Li-ion Battery'],
+      demoUrl: '#',
       githubUrl: '#'
     }
   ];
