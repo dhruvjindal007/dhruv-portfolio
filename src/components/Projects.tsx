@@ -86,6 +86,15 @@ const Projects: React.FC = () => {
       tech: ['Solar Panel', 'MPPT Controller', 'DC–DC Converter', 'Li-ion Battery'],
       demoUrl: '#',
       githubUrl: '#'
+    },
+    {
+      id: 9,
+      title: 'Multiplayer Dashboard',
+      description: 'WebSocket Multiplayer Dashboard Game: A real-time multiplayer leaderboard built with React and Socket.IO, featuring live score updates, glassmorphism UI, responsive design, and a simple chat system. Players are instantly ranked, and top scores are visually highlighted.',
+      image: 'https://quartzcomponents.com/cdn/shop/articles/Solar-Mobile-Charger_750x.jpg?v=1584511007',
+      tech: ['Solar Panel', 'MPPT Controller', 'DC–DC Converter', 'Li-ion Battery'],
+      demoUrl: '#',
+      githubUrl: 'https://github.com/dhruvjindal007/WebSocket_Multiplayer-Dashboard'
     }
   ];
 
