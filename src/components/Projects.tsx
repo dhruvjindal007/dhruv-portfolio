@@ -8,6 +8,7 @@ import todoImage from './assets/todo.png';
 import restaurant from './assets/restaurant.png';
 import blog from './assets/blog.png';
 import portfolio from './assets/portfolio.png';
+import WebSocket from './assets/websocket.png';
 
 const Projects: React.FC = () => {
   const { isDark } = useTheme();
@@ -91,8 +92,8 @@ const Projects: React.FC = () => {
       id: 9,
       title: 'Multiplayer Dashboard',
       description: 'WebSocket Multiplayer Dashboard Game: A real-time multiplayer leaderboard built with React and Socket.IO, featuring live score updates, glassmorphism UI, responsive design, and a simple chat system. Players are instantly ranked, and top scores are visually highlighted.',
-      image: 'https://quartzcomponents.com/cdn/shop/articles/Solar-Mobile-Charger_750x.jpg?v=1584511007',
-      tech: ['Solar Panel', 'MPPT Controller', 'DC–DC Converter', 'Li-ion Battery'],
+      image: WebSocket,
+      tech: ['React', 'Socket.IO', 'Node.js', 'CSS'],
       demoUrl: '#',
       githubUrl: 'https://github.com/dhruvjindal007/WebSocket_Multiplayer-Dashboard'
     }
@@ -100,8 +101,8 @@ const Projects: React.FC = () => {
 
   const filters = ['all', 'React', 'Django', 'PHP', 'Laravel', 'Python'];
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
+  const filteredProjects = filter === 'all'
+    ? projects
     : projects.filter(project => project.tech.includes(filter));
 
   return (
