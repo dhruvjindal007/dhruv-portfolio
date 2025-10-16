@@ -11,7 +11,23 @@ const Experience: React.FC = () => {
 
   const experiences: ExperienceType[] = [
     {
-      id: 1,
+      id: 6,
+      title: 'Artificial Intelligence Intern',
+      company: 'Infosys Springboard',
+      period: 'September 2025 - Present',
+      description: 'Engaged in Artificial Intelligence-focused internship program with structured training and project-based learning.',
+      type: 'work'
+    },
+    {
+      id: 5,
+      title: 'Software Development Engineer',
+      company: 'Gokaddal Technologies (Remote)',
+      period: 'June 2025 - August 2025',
+      description: 'Built and optimized core modules of a global website portal, enhancing backend APIs and frontend scalability. Delivered full SDLC features (design to deployment) in collaboration with cross-functional teams, achieving 100% on-time delivery.',
+      type: 'work'
+    },
+    {
+      id: 4,
       title: 'Software Engineering Intern',
       company: 'WoRisGo (Remote)',
       period: 'May 2025 - June 2025',
@@ -19,7 +35,7 @@ const Experience: React.FC = () => {
       type: 'work'
     },
     {
-      id: 2,
+      id: 3,
       title: 'B.Tech (Electrical Engineering)',
       company: 'Punjab Engineering College (PEC)',
       period: '2022 - Present',
@@ -27,7 +43,7 @@ const Experience: React.FC = () => {
       type: 'education'
     },
     {
-      id: 3,
+      id: 2,
       title: '12th Class (CBSE)',
       company: "St. Peter's Senior Secondary School",
       period: '2021 - 2022',
@@ -35,7 +51,7 @@ const Experience: React.FC = () => {
       type: 'education'
     },
     {
-      id: 4,
+      id: 1,
       title: '10th Class (CBSE)',
       company: 'Ryan International School',
       period: '2019 - 2020',

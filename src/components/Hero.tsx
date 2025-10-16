@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div className="relative z-10 px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -128,7 +128,10 @@ const Hero: React.FC = () => {
             </motion.button>
 
             <div className="flex gap-4">
-              <motion.button
+              <motion.a
+                href="https://drive.google.com/file/d/1U8rpkx-_Tro8GezSd14-Ezs3TZvIYOoj/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`
                   px-6 py-4 rounded-full border-2 font-semibold text-lg transition-all duration-300
                   ${isDark 
@@ -142,7 +145,7 @@ const Hero: React.FC = () => {
               >
                 <Download size={20} />
                 Resume
-              </motion.button>
+              </motion.a>
 
               <motion.button
                 onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
@@ -165,7 +168,7 @@ const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          className="absolute transform -translate-x-1/2 bottom-10 left-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >

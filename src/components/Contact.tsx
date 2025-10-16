@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-const Contact: React.FC = () => {
+// Define types for form data and status message
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface StatusMessage {
+  type: 'success' | 'error';
+  text: string;
+}
+
+const Contact = () => {
   const { isDark } = useTheme();
-  const [ref, inView] = useInView({ threshold: 0.3, triggerOnce: true });
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -22,12 +34,63 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = (): string | null => {
+    if (!formData.name.trim()) return 'Name is required';
+    if (!formData.email.includes('@')) return 'Please enter a valid email';
+    if (!formData.subject.trim()) return 'Subject is required';
+    if (formData.message.trim().length < 10) return 'Message must be at least 10 characters';
+    return null;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    
+    const error = validateForm();
+    if (error) {
+      setStatusMessage({ type: 'error', text: error });
+      setTimeout(() => setStatusMessage(null), 5000);
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: SERVICE_ID,
+          template_id: TEMPLATE_ID,
+          user_id: PUBLIC_KEY,
+          template_params: {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            to_email: 'jindal10dhruv@gmail.com'
+          }
+        })
+      });
+
+      if (response.ok) {
+        setStatusMessage({ type: 'success', text: 'Message sent successfully! I\'ll get back to you soon.' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (err) {
+      setStatusMessage({ type: 'error', text: 'Failed to send message. Please try again or email me directly.' });
+      console.error('EmailJS Error:', err);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setStatusMessage(null), 5000);
+    }
   };
 
   const contactInfo = [
@@ -54,54 +117,45 @@ const Contact: React.FC = () => {
   const socialLinks = [
     { icon: Github, href: 'https://github.com/dhruvjindal007', label: 'GitHub' },
     { icon: Linkedin, href: 'https://linkedin.com/in/dhruv-jindal-322408294', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' }
   ];
 
   return (
     <section id="contact" className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="mb-16 text-center">
           <h2 className={`
-            text-4xl md:text-5xl font-bold mb-6
+            mb-6 text-4xl font-bold text-transparent md:text-5xl bg-clip-text bg-gradient-to-r
             ${isDark 
-              ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400' 
-              : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600'
+              ? 'from-cyan-400 to-purple-400' 
+              : 'from-blue-600 to-purple-600'
             }
           `}>
             Let's Work Together
           </h2>
           <div className={`w-20 h-1 mx-auto rounded ${isDark ? 'bg-cyan-400' : 'bg-blue-500'}`} />
-          <p className={`mt-6 text-lg max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`max-w-3xl mx-auto mt-6 text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className={`
-              p-8 rounded-2xl
-              ${isDark 
-                ? 'bg-gray-800/50 border border-cyan-500/20' 
-                : 'bg-gray-50 border border-gray-200'
-              }
-              backdrop-blur-sm
-            `}
-          >
+          <div className={`
+            p-8 border rounded-2xl backdrop-blur-sm
+            ${isDark 
+              ? 'bg-gray-800/50 border-cyan-500/20' 
+              : 'bg-gray-50 border-gray-200'
+            }
+          `}>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div className="relative">
-                  <motion.input
+                  <label htmlFor="name" className={`block mb-2 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Name *
+                  </label>
+                  <input
                     type="text"
+                    id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
@@ -115,23 +169,27 @@ const Contact: React.FC = () => {
                         : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
                       }
                       focus:outline-none
+                      ${focusedField === 'name' ? 'scale-105 shadow-lg' : ''}
                     `}
-                    placeholder="Your Name"
-                    animate={{
-                      scale: focusedField === 'name' ? 1.02 : 1,
+                    style={{
                       boxShadow: focusedField === 'name' 
-                        ? isDark
+                        ? isDark 
                           ? '0 0 0 3px rgba(0, 255, 255, 0.1)'
                           : '0 0 0 3px rgba(59, 130, 246, 0.1)'
-                        : '0 0 0 0px transparent'
+                        : 'none'
                     }}
-                    transition={{ duration: 0.2 }}
+                    placeholder="Your Name"
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <div className="relative">
-                  <motion.input
+                  <label htmlFor="email" className={`block mb-2 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Email *
+                  </label>
+                  <input
                     type="email"
+                    id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -145,24 +203,28 @@ const Contact: React.FC = () => {
                         : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
                       }
                       focus:outline-none
+                      ${focusedField === 'email' ? 'scale-105 shadow-lg' : ''}
                     `}
-                    placeholder="Your Email"
-                    animate={{
-                      scale: focusedField === 'email' ? 1.02 : 1,
+                    style={{
                       boxShadow: focusedField === 'email' 
-                        ? isDark
+                        ? isDark 
                           ? '0 0 0 3px rgba(0, 255, 255, 0.1)'
                           : '0 0 0 3px rgba(59, 130, 246, 0.1)'
-                        : '0 0 0 0px transparent'
+                        : 'none'
                     }}
-                    transition={{ duration: 0.2 }}
+                    placeholder="your.email@example.com"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
 
               <div className="relative">
-                <motion.input
+                <label htmlFor="subject" className={`block mb-2 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Subject *
+                </label>
+                <input
                   type="text"
+                  id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
@@ -176,22 +238,26 @@ const Contact: React.FC = () => {
                       : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
                     }
                     focus:outline-none
+                    ${focusedField === 'subject' ? 'scale-105 shadow-lg' : ''}
                   `}
-                  placeholder="Subject"
-                  animate={{
-                    scale: focusedField === 'subject' ? 1.02 : 1,
+                  style={{
                     boxShadow: focusedField === 'subject' 
-                      ? isDark
+                      ? isDark 
                         ? '0 0 0 3px rgba(0, 255, 255, 0.1)'
                         : '0 0 0 3px rgba(59, 130, 246, 0.1)'
-                      : '0 0 0 0px transparent'
+                      : 'none'
                   }}
-                  transition={{ duration: 0.2 }}
+                  placeholder="What's this about?"
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div className="relative">
-                <motion.textarea
+                <label htmlFor="message" className={`block mb-2 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Message *
+                </label>
+                <textarea
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
@@ -206,53 +272,67 @@ const Contact: React.FC = () => {
                       : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
                     }
                     focus:outline-none
+                    ${focusedField === 'message' ? 'scale-105 shadow-lg' : ''}
                   `}
-                  placeholder="Your Message"
-                  animate={{
-                    scale: focusedField === 'message' ? 1.02 : 1,
+                  style={{
                     boxShadow: focusedField === 'message' 
-                      ? isDark
+                      ? isDark 
                         ? '0 0 0 3px rgba(0, 255, 255, 0.1)'
                         : '0 0 0 3px rgba(59, 130, 246, 0.1)'
-                      : '0 0 0 0px transparent'
+                      : 'none'
                   }}
-                  transition={{ duration: 0.2 }}
+                  placeholder="Tell me about your project..."
+                  disabled={isSubmitting}
                 />
               </div>
 
-              <motion.button
+              <button
                 type="submit"
+                disabled={isSubmitting}
                 className={`
                   w-full px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300
+                  shadow-lg transform hover:scale-105 active:scale-95
+                  flex items-center justify-center gap-2
+                  disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
                   ${isDark 
                     ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:from-cyan-400 hover:to-purple-400' 
                     : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400'
                   }
-                  shadow-lg transform hover:scale-105 active:scale-95
-                  flex items-center justify-center gap-2
                 `}
-                whileHover={{ 
-                  boxShadow: isDark 
-                    ? '0 20px 40px rgba(0, 255, 255, 0.3)' 
-                    : '0 20px 40px rgba(59, 130, 246, 0.3)'
+                style={{
+                  boxShadow: !isSubmitting 
+                    ? isDark 
+                      ? '0 10px 30px rgba(0, 255, 255, 0.3)' 
+                      : '0 10px 30px rgba(59, 130, 246, 0.3)'
+                    : 'none'
                 }}
-                whileTap={{ scale: 0.95 }}
               >
-                <Send size={20} />
-                Send Message
-              </motion.button>
+                <Send size={20} className={isSubmitting ? 'animate-pulse' : ''} />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+
+              {statusMessage && (
+                <div
+                  className={`p-4 rounded-lg border ${
+                    statusMessage.type === 'success'
+                      ? isDark 
+                        ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                        : 'bg-green-50 text-green-700 border-green-200'
+                      : isDark
+                        ? 'bg-red-500/20 text-red-300 border-red-500/30'
+                        : 'bg-red-50 text-red-700 border-red-200'
+                  } animate-pulse`}
+                >
+                  {statusMessage.text}
+                </div>
+              )}
             </form>
-          </motion.div>
+          </div>
 
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-8"
-          >
+          <div className="space-y-8">
             <div>
-              <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`mb-6 text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 Get In Touch
               </h3>
               <p className={`text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -263,24 +343,19 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.a
+              {contactInfo.map((info) => (
+                <a
                   key={info.label}
                   href={info.href}
                   className={`
-                    flex items-center gap-4 p-4 rounded-lg transition-all duration-300
+                    flex items-center gap-4 p-4 transition-all duration-300 border rounded-lg backdrop-blur-sm group hover:translate-x-2
                     ${isDark 
-                      ? 'bg-gray-800/50 border border-cyan-500/20 hover:bg-gray-800 hover:border-cyan-500/40' 
-                      : 'bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
+                      ? 'bg-gray-800/50 border-cyan-500/20 hover:bg-gray-800 hover:border-cyan-500/40' 
+                      : 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-gray-300'
                     }
-                    backdrop-blur-sm group
                   `}
-                  whileHover={{ scale: 1.02, x: 10 }}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
                 >
-                  <info.icon className={`w-6 h-6 ${isDark ? 'text-cyan-400' : 'text-blue-500'} group-hover:scale-110 transition-transform duration-200`} />
+                  <info.icon className={`w-6 h-6 transition-transform duration-200 group-hover:scale-110 ${isDark ? 'text-cyan-400' : 'text-blue-500'}`} />
                   <div>
                     <div className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                       {info.label}
@@ -289,39 +364,36 @@ const Contact: React.FC = () => {
                       {info.value}
                     </div>
                   </div>
-                </motion.a>
+                </a>
               ))}
             </div>
 
             <div>
-              <h4 className={`text-lg font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`mb-4 text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 Follow Me
               </h4>
               <div className="flex gap-4">
-                {socialLinks.map((social, index) => (
-                  <motion.a
+                {socialLinks.map((social) => (
+                  <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
                     className={`
-                      p-3 rounded-full transition-all duration-300
+                      p-3 transition-all duration-300 border rounded-full hover:scale-110 hover:rotate-6
                       ${isDark 
-                        ? 'bg-gray-800 text-cyan-400 hover:bg-cyan-400 hover:text-gray-900' 
-                        : 'bg-gray-100 text-blue-600 hover:bg-blue-600 hover:text-white'
+                        ? 'bg-gray-800 text-cyan-400 hover:bg-cyan-400 hover:text-gray-900 border-cyan-500/20' 
+                        : 'bg-gray-100 text-blue-600 hover:bg-blue-600 hover:text-white border-gray-200'
                       }
-                      border ${isDark ? 'border-cyan-500/20' : 'border-gray-200'}
                     `}
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
                   >
                     <social.icon size={20} />
-                  </motion.a>
+                  </a>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
