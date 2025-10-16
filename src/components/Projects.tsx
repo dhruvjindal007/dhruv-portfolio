@@ -8,7 +8,7 @@ import todoImage from './assets/todo.png';
 import restaurant from './assets/restaurant.png';
 import blog from './assets/blog.png';
 import portfolio from './assets/portfolio.png';
-import WebSocket from './assets/websocket.png';
+import WebSocket from './assets/WebSocket.png';
 
 const Projects: React.FC = () => {
   const { isDark } = useTheme();
