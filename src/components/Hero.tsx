@@ -115,10 +115,7 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Aspiring Software Development Engineer with hands-on experience in 
-            building full-stack web applications using React, Django, and MySQL.
-            Skilled in responsive UI development, backend integration, and
-            building scalable solutions.
+            Software Engineer with expertise in building scalable full-stack applications using React, Django, and MySQL. Skilled in crafting modern UIs, designing efficient backend systems, and integrating AI-driven features. Strong foundation in REST APIs, authentication, CI/CD, and cloud deployment, with a focus on clean, maintainable engineering.
           </motion.p>
 
           {/* Action Buttons */}

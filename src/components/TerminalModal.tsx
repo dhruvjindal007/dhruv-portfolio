@@ -1,128 +1,151 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Terminal } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { Terminal } from 'lucide-react';
 
 interface TerminalModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isDark?: boolean;
 }
 
-const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
-  const { isDark } = useTheme();
-  const [currentLine, setCurrentLine] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose, isDark = true }) => {
+  const [lines, setLines] = useState<string[]>([]);
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [currentChar, setCurrentChar] = useState(0);
 
   const commands = [
-    'dhruv@portfolio:~$ whoami',
-    'Dhruv Jindal - Software Development Engineer',
-    'dhruv@portfolio:~$ ls -la skills/',
-    'drwxr-xr-x  2 dhruv dhruv 4096 Dec 15 2024 frontend/',
-    'drwxr-xr-x  2 dhruv dhruv 4096 Dec 15 2024 backend/',
-    'drwxr-xr-x  2 dhruv dhruv 4096 Dec 15 2024 databases/',
-    'dhruv@portfolio:~$ cat experience.txt',
-    'WoRisGo Internship: Backend optimization +30% performance',
-    'PWOC: Top 1% contributor among 200+ participants',
-    'dhruv@portfolio:~$ npm run build-career',
-    '✓ Building amazing projects...',
-    '✓ Learning new technologies...',
-    '✓ Contributing to open source...',
-    'dhruv@portfolio:~$ git status',
-    'On branch main',
-    'Your portfolio is up to date.',
-    'dhruv@portfolio:~$ echo "Ready for new opportunities!"',
-    'Ready for new opportunities!',
-    'dhruv@portfolio:~$ _'
+    "Initializing developer profile...",
+    "Loading system modules...",
+    "",
+    "[OK] Identity: Dhruv Jindal",
+    "[OK] Role: Software Development Engineer",
+    "",
+    "Running diagnostics...",
+    "[OK] React Engine ............... active",
+    "[OK] Django REST Server ......... active",
+    "[OK] Database Cluster ........... synced (MySQL/PostgreSQL)",
+    "[OK] AI Module .................. operational",
+    "",
+    "Scanning major projects...",
+    "|-- restaurant-app/        (Django + React + AI Q&A <200ms)",
+    "|-- eduportal-ai/          (Django REST + JWT + Auto-Curriculum Builder)",
+    "|-- raytracer-cpp/         (1M+ rays rendered in 0.079s)",
+    "\\-- hotel-booking-laravel/ (Role-based + MySQL + Dashboard)",
+    "",
+    "Compiling achievements...",
+    "[+] PWOC: Top 1% Open Source Contributor",
+    "[+] Backend Optimization @ Gokaddal",
+    "[+] AI Integration workflows (LLaMA API, automation)",
+    "",
+    "Running career-build sequence...",
+    "> Improving performance...",
+    "> Shipping clean code...",
+    "> Learning new technologies...",
+    "> Contributing to open source...",
+    "System status: STABLE",
+    "",
+    "dhruv@portfolio:~$ echo \"Ready to build something extraordinary.\"",
+    "Ready to build something extraordinary.",
+    "",
+    "dhruv@portfolio:~$ _"
   ];
 
   useEffect(() => {
     if (!isOpen) {
-      setCurrentLine(0);
-      setDisplayText('');
+      setLines([]);
+      setCurrentLineIndex(0);
+      setCurrentChar(0);
       return;
     }
 
-    const timer = setTimeout(() => {
-      if (currentLine < commands.length) {
-        const command = commands[currentLine];
-        let charIndex = 0;
-        
-        const typeWriter = setInterval(() => {
-          if (charIndex < command.length) {
-            setDisplayText(prev => prev + command[charIndex]);
-            charIndex++;
-          } else {
-            clearInterval(typeWriter);
-            setTimeout(() => {
-              setDisplayText(prev => prev + '\n');
-              setCurrentLine(prev => prev + 1);
-            }, 500);
-          }
-        }, 50);
+    if (currentLineIndex >= commands.length) return;
 
-        return () => clearInterval(typeWriter);
-      }
-    }, 300);
+    const currentLine = commands[currentLineIndex];
 
-    return () => clearTimeout(timer);
-  }, [currentLine, isOpen]);
+    // If empty line, add it immediately and move to next
+    if (currentLine === "") {
+      setLines(prev => [...prev, ""]);
+      setCurrentLineIndex(prev => prev + 1);
+      setCurrentChar(0);
+      return;
+    }
+
+    // Type out character by character
+    if (currentChar < currentLine.length) {
+      const timer = setTimeout(() => {
+        setCurrentChar(prev => prev + 1);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+
+    // Line complete, move to next line
+    if (currentChar === currentLine.length) {
+      const timer = setTimeout(() => {
+        setLines(prev => [...prev, currentLine]);
+        setCurrentLineIndex(prev => prev + 1);
+        setCurrentChar(0);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, currentLineIndex, currentChar, commands]);
+
+  if (!isOpen) return null;
+
+  const currentLine = commands[currentLineIndex] || "";
+  const displayCurrentLine = currentLine.slice(0, currentChar);
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={onClose}
-          />
-          
-          <motion.div
-            className={`
-              relative w-full max-w-4xl h-96 rounded-lg overflow-hidden
-              ${isDark 
-                ? 'bg-gray-900 border border-cyan-500/30' 
-                : 'bg-gray-900 border border-gray-600'
-              }
-              shadow-2xl
-            `}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-          >
-            {/* Terminal Header */}
-            <div className="flex items-center justify-between p-3 bg-gray-800 border-b border-gray-700">
-              <div className="flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-green-400" />
-                <span className="text-sm text-gray-300 font-mono">dhruv@portfolio:~</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <button
-                  onClick={onClose}
-                  className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400"
-                />
-              </div>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 duration-200 animate-in fade-in">
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
-            {/* Terminal Content */}
-            <div className="p-4 h-full overflow-y-auto bg-black text-green-400 font-mono text-sm">
-              <pre className="whitespace-pre-wrap">{displayText}</pre>
-              <motion.span
-                className="inline-block w-2 h-4 bg-green-400 ml-1"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <div
+        className={`
+          relative w-full max-w-4xl h-96 rounded-lg overflow-hidden shadow-2xl
+          ${isDark 
+            ? 'bg-gray-900 border border-cyan-500/30' 
+            : 'bg-gray-900 border border-gray-600'
+          }
+        `}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-3 bg-gray-800 border-b border-gray-700">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-green-400" />
+            <span className="font-mono text-sm text-gray-300">dhruv@portfolio:~</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              className="w-3 h-3 transition-colors bg-red-500 rounded-full hover:bg-red-600"
+              aria-label="Close terminal"
+            />
+            <button
+              className="w-3 h-3 transition-colors bg-yellow-500 rounded-full hover:bg-yellow-600"
+              aria-label="Minimize terminal"
+            />
+            <button
+              className="w-3 h-3 transition-colors bg-green-500 rounded-full hover:bg-green-600"
+              aria-label="Maximize terminal"
+            />
+          </div>
+        </div>
+
+        {/* Terminal Content */}
+        <div className="h-full p-4 overflow-y-auto font-mono text-sm text-green-400 bg-black">
+          {lines.map((line, index) => (
+            <div key={index}>{line}</div>
+          ))}
+          <div>
+            {displayCurrentLine}
+            {currentLineIndex < commands.length && (
+              <span className="inline-block w-2 h-4 ml-1 bg-green-400 animate-pulse" />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -71,11 +71,11 @@ const About: React.FC = () => {
               </p>
 
               <p>
-                I specialize in full-stack development using React, Django, and
-                MySQL. My experience includes reducing backend response times by
-                30% during my internship at WoRisGo and contributing to
-                open-source projects where I ranked in the top 1% among 200+
-                participants.
+                I specialize in building scalable full-stack applications using React, Django,
+                and MySQL, with a strong focus on performance, clean architecture, and real-world
+                problem solving. My experience spans developing production-grade features,
+                integrating AI-powered modules, optimizing backend workflows, and contributing
+                to open-source where I ranked in the Top 1% among 200+ developers.
               </p>
 
               <p>
