@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
-const CodePlayground: React.FC = () => {
-  const { isDark } = useTheme();
-  const [displayedCode, setDisplayedCode] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const codeSnippets = [
+const codeSnippets = [
     `const developer = {
   name: 'Dhruv Jindal',
   role: 'Software Engineer',
@@ -36,6 +31,10 @@ const CodePlayground: React.FC = () => {
 ];`,
   ];
 
+const CodePlayground: React.FC = () => {
+  const { isDark } = useTheme();
+  const [displayedCode, setDisplayedCode] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
     const snippet = codeSnippets[currentIndex];
     let char = 0;
