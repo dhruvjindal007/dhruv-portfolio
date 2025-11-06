@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import CustomCursor from './components/CustomCursor';
@@ -13,6 +12,7 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import BlogDetail from './components/BlogDetail';
+
 function App() {
   return (
     <ThemeProvider>
@@ -20,19 +20,36 @@ function App() {
         <CustomCursor />
         <Navigation />
         <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <About />
-              <Skills />
-              <Projects />
-              <Experience />
-              {/* <Testimonials /> */}
-              <Blog />
-              <Contact />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/"
+            element={
+              <>
+                <div id="home" className="scroll-mt-24">
+                  <Hero />
+                </div>
+                <div id="about" className="scroll-mt-24">
+                  <About />
+                </div>
+                <div id="skills" className="scroll-mt-24">
+                  <Skills />
+                </div>
+                <div id="projects" className="scroll-mt-24">
+                  <Projects />
+                </div>
+                <div id="experience" className="scroll-mt-24">
+                  <Experience />
+                </div>
+                <div id="blog" className="scroll-mt-24">
+                  <Blog />
+                </div>
+                <div id="contact" className="scroll-mt-24">
+                  <Contact />
+                </div>
+                <Footer />
+              </>
+            }
+          />
+
           <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
       </Router>

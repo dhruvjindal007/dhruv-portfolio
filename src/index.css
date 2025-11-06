@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide default cursor */
-* {
+.custom-cursor {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+/* Hide default cursor only on main areas (fixes pointer offset bug) */
+html, body, button, a, [role="button"] {
   cursor: none !important;
 }
 
@@ -22,7 +27,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+  @apply bg-gray-400 rounded-full dark:bg-gray-600;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -51,7 +56,7 @@ html {
   }
 }
 
-/* Focus styles for accessibility */
+/* Focus styles */
 button:focus-visible,
 [role="button"]:focus-visible {
   outline: 2px solid #3B82F6;

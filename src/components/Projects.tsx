@@ -106,7 +106,7 @@ const Projects: React.FC = () => {
     : projects.filter(project => project.tech.includes(filter));
 
   return (
-    <section id="projects" className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
+    <section className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <motion.div
           ref={ref}

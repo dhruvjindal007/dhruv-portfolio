@@ -36,10 +36,10 @@ const CustomCursor: React.FC = () => {
 
   return (
     <>
-      {/* Main cursor */}
       <motion.div
         className={`
-          fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-50
+          custom-cursor
+          fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-[9999]
           ${isDark ? 'bg-cyan-400' : 'bg-blue-500'}
           mix-blend-difference
         `}
@@ -50,11 +50,11 @@ const CustomCursor: React.FC = () => {
         }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
-      
-      {/* Trailing cursor */}
+
       <motion.div
         className={`
-          fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-40
+          custom-cursor
+          fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[9999]
           border-2 ${isDark ? 'border-cyan-400/50' : 'border-blue-500/50'}
         `}
         animate={{

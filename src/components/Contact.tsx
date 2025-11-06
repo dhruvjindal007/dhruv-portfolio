@@ -120,7 +120,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
+    <section className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h2 className={`

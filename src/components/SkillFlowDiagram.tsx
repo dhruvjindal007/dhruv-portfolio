@@ -229,7 +229,7 @@ const SkillFlowDiagram: React.FC = () => {
   };
 
   return (
-    <section id="skills" className={`py-20 relative overflow-hidden ${isDark ? 'bg-gray-800' : 'bg-gray-50'}`}>
+    <section className={`py-20 relative overflow-hidden ${isDark ? 'bg-gray-800' : 'bg-gray-50'}`}>
       {/* Background Elements */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
