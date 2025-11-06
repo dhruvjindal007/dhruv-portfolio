@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Terminal } from 'lucide-react';
 
 interface TerminalModalProps {
@@ -12,7 +12,7 @@ const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose, isDark =
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
 
-  const commands = [
+  const commands = useMemo(() => [
     "Initializing developer profile...",
     "Loading system modules...",
     "",
@@ -47,7 +47,7 @@ const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose, isDark =
     "Ready to build something extraordinary.",
     "",
     "dhruv@portfolio:~$ _"
-  ];
+  ], []);
 
   useEffect(() => {
     if (!isOpen) {
