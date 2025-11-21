@@ -17,7 +17,16 @@ const Projects: React.FC = () => {
 
   const projects: Project[] = [
     {
-      id: 1,
+      id: 8,
+      title: 'AI Fitness Coach App',
+      description: 'AI Fitness Coach: Personalized routines, smart diet plans, real-time voice guidance, and visual exercise previews.',
+      image: restaurant,
+      tech: ['Next.js 13', 'React','Groq AI','Tailwind CSS','TypeScript','ElevenLabs TTS','HuggingFace(Stable Diffusion)'],
+      demoUrl: 'https://ai-fitness-coach-app-eosin.vercel.app/',
+      githubUrl: 'https://github.com/dhruvjindal007/AI-Fitness-Coach-App'
+    },
+    {
+      id: 7,
       title: 'Restaurant Website',
       description: 'Dynamic restaurant platform with Django backend and React frontend, featuring role-based authentication and integrated LLaMA AI API for dish Q&A.',
       image: restaurant,
@@ -26,7 +35,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Little-Lemon'
     },
     {
-      id: 2,
+      id: 6,
       title: 'Hotel Booking System',
       description: 'Real-time hotel booking system built with Laravel, featuring admin dashboards, booking management, and MySQL database integration.',
       image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -35,7 +44,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Laravel-Booking-Management-System'
     },
     {
-      id: 3,
+      id: 5,
       title: 'Multiplayer Dashboard',
       description: 'WebSocket Multiplayer Dashboard Game: A real-time multiplayer leaderboard built with React and Socket.IO, featuring live score updates, glassmorphism UI, responsive design, and a simple chat system. Players are instantly ranked, and top scores are visually highlighted.',
       image: WebSocket,
@@ -53,7 +62,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Blogging-platform'
     },
     {
-      id: 5,
+      id: 3,
       title: 'Remote-Controlled Car',
       description: 'Designed and built a remote-controlled car with Arduino Uno, IR/RF modules, and L298N motor driver for wireless control and stability. Upgraded an existing RC car with steel chassis, Johnson motors, Li-ion battery pack, and servo mechanisms, enhancing efficiency, durability, and overall performance.',
       image: 'https://www.theengineerstore.in/cdn/shop/files/Metal-Tank-Robot-Smart-Car-Chassis-Kit-1.jpg?v=1725359358', 
@@ -62,7 +71,7 @@ const Projects: React.FC = () => {
       githubUrl: '#'
     },
     {
-      id: 6,
+      id: 3,
       title: 'Hovercraft',
       description: 'Created a hovercraft capable of navigating multiple terrains. Designed the structure in Fusion 360, fabricated maneuvering fan components with 3D printing, and applied fluid dynamics and control principles to optimize lift, thrust, and stability.',
       image: 'https://i.ytimg.com/vi/mpqYlHTlXtA/sddefault.jpg',
@@ -71,7 +80,7 @@ const Projects: React.FC = () => {
       githubUrl: '#'
     },
     {
-      id: 7,
+      id: 2,
       title: 'Solar Mobile Charger',
       description: 'Built a portable solar-powered charger using a 6V solar panel, MPPT controller, XL6009E1 DC–DC boost converter, and 3.7V Li-ion battery with fuse protection. Delivered stable DC output for off-grid mobile charging and sustainable energy use.',
       image: 'https://quartzcomponents.com/cdn/shop/articles/Solar-Mobile-Charger_750x.jpg?v=1584511007',
@@ -80,7 +89,7 @@ const Projects: React.FC = () => {
       githubUrl: '#'
     },
     {
-      id: 8,
+      id: 1,
       title: 'Portfolio Website',
       description: 'Previously designed fully responsive MERN stack portfolio showcasing 5+ live projects with modern design, smooth animations, and optimized performance.',
       image: portfolio,
@@ -89,7 +98,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Portfolio'
     },
     {
-      id: 9,
+      id: 0,
       title: 'To-Do List App',
       description: 'Full-featured CRUD task manager built with Django, featuring secure user authentication, task categorization, and responsive design.',
       image: todoImage,
