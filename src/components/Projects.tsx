@@ -4,11 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { ExternalLink, Github, Filter } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { Project } from '../types';
-import todoImage from './assets/todo.png';
-import restaurant from './assets/restaurant.png';
-import blog from './assets/blog.png';
-import portfolio from './assets/portfolio.png';
-import WebSocket from './assets/WebSocket.png';
+import { todoImage, restaurant, blog, portfolio, WebSocket, Fitness } from "../assets";
 
 const Projects: React.FC = () => {
   const { isDark } = useTheme();
@@ -20,7 +16,7 @@ const Projects: React.FC = () => {
       id: 8,
       title: 'AI Fitness Coach App',
       description: 'AI Fitness Coach: Personalized routines, smart diet plans, real-time voice guidance, and visual exercise previews.',
-      image: restaurant,
+      image: Fitness,
       tech: ['Next.js 13', 'React','Groq AI','Tailwind CSS','TypeScript','ElevenLabs TTS','HuggingFace(Stable Diffusion)'],
       demoUrl: 'https://ai-fitness-coach-app-eosin.vercel.app/',
       githubUrl: 'https://github.com/dhruvjindal007/AI-Fitness-Coach-App'
