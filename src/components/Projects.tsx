@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { ExternalLink, Github, Filter } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { Project } from '../types';
-import { todoImage, restaurant, blog, portfolio, WebSocket, Fitness } from "../assets";
+import { todoImage, restaurant, blog, portfolio, WebSocket, Fitness, Eduportal, ContentOptimizer } from "../assets";
 
 const Projects: React.FC = () => {
   const { isDark } = useTheme();
@@ -13,7 +13,25 @@ const Projects: React.FC = () => {
 
   const projects: Project[] = [
     {
-      id: 8,
+      id: 11,
+      title: 'Eduportal | AI Powered Learning Platform',
+      description: 'AI-powered learning platform with personalized course recommendations, interactive content, progress tracking, and AI-driven tutoring for an enhanced educational experience.',
+      image: Eduportal,
+      tech: ['React','Django','JWT Auth','MySQL','Multi-LLM Engine','Semantic Filtering','Redis','Async Workers'],
+      demoUrl: 'https://lms-frontend-iota-pearl.vercel.app/',
+      githubUrl: '#'
+    },
+    {
+      id: 10,
+      title: 'AI Automated Content Marketing Optimizer',
+      description: 'AI-powered content intelligence that crafts, optimizes, and performance-predicts winning marketing campaigns.',
+      image: ContentOptimizer,
+      tech: ['LLaMA / Gemini APIs','HuggingFace Models','Python','Streamlit','RandomForest + SMOTE','Google Sheets API','Slack Webhooks','Trend Analytics'],
+      demoUrl: '#',
+      githubUrl: 'https://github.com/dhruvjindal007/AI-Based-Automated-Content-Marketing-Optimizer'
+    },
+    {
+      id: 9,
       title: 'AI Fitness Coach App',
       description: 'AI Fitness Coach: Personalized routines, smart diet plans, real-time voice guidance, and visual exercise previews.',
       image: Fitness,
@@ -22,7 +40,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/AI-Fitness-Coach-App'
     },
     {
-      id: 7,
+      id: 8,
       title: 'Restaurant Website',
       description: 'Dynamic restaurant platform with Django backend and React frontend, featuring role-based authentication and integrated LLaMA AI API for dish Q&A.',
       image: restaurant,
@@ -31,7 +49,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Little-Lemon'
     },
     {
-      id: 6,
+      id: 7,
       title: 'Hotel Booking System',
       description: 'Real-time hotel booking system built with Laravel, featuring admin dashboards, booking management, and MySQL database integration.',
       image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -40,16 +58,16 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Laravel-Booking-Management-System'
     },
     {
-      id: 5,
+      id: 6,
       title: 'Multiplayer Dashboard',
-      description: 'WebSocket Multiplayer Dashboard Game: A real-time multiplayer leaderboard built with React and Socket.IO, featuring live score updates, glassmorphism UI, responsive design, and a simple chat system. Players are instantly ranked, and top scores are visually highlighted.',
+      description: 'WebSocket Multiplayer Dashboard Game: a real-time multiplayer leaderboard built with React and Socket.IO, featuring live score updates, glassmorphism UI, responsive design, and a simple chat system.',
       image: WebSocket,
       tech: ['React', 'Socket.IO', 'Node.js', 'CSS'],
       demoUrl: '#',
       githubUrl: 'https://github.com/dhruvjindal007/WebSocket_Multiplayer-Dashboard'
     },
     {
-      id: 4,
+      id: 5,
       title: 'Blogging Platform',
       description: 'Comprehensive blog system with PHP and MySQL, featuring CKEditor integration, Bootstrap 5 styling, and full mobile responsiveness.',
       image: 'https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -58,7 +76,7 @@ const Projects: React.FC = () => {
       githubUrl: 'https://github.com/dhruvjindal007/Blogging-platform'
     },
     {
-      id: 3,
+      id: 4,
       title: 'Remote-Controlled Car',
       description: 'Designed and built a remote-controlled car with Arduino Uno, IR/RF modules, and L298N motor driver for wireless control and stability. Upgraded an existing RC car with steel chassis, Johnson motors, Li-ion battery pack, and servo mechanisms, enhancing efficiency, durability, and overall performance.',
       image: 'https://www.theengineerstore.in/cdn/shop/files/Metal-Tank-Robot-Smart-Car-Chassis-Kit-1.jpg?v=1725359358', 
@@ -229,33 +247,40 @@ const Projects: React.FC = () => {
                   {/* Hover Overlay */}
                   <motion.div
                     className="absolute flex gap-2 transition-opacity duration-300 opacity-0 top-4 right-4 group-hover:opacity-100"
-                    // initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
                   >
-                    <motion.a
-                      href={project.demoUrl}
-                      className={`
-                        p-2 rounded-full
-                        ${isDark ? 'bg-cyan-500 hover:bg-cyan-400' : 'bg-blue-500 hover:bg-blue-400'}
-                        text-white transition-colors duration-200
-                      `}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <ExternalLink size={16} />
-                    </motion.a>
-                    <motion.a
-                      href={project.githubUrl}
-                      className={`
-                        p-2 rounded-full
-                        ${isDark ? 'bg-purple-500 hover:bg-purple-400' : 'bg-purple-500 hover:bg-purple-400'}
-                        text-white transition-colors duration-200
-                      `}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Github size={16} />
-                    </motion.a>
+                    {project.demoUrl && project.demoUrl !== '#' && (
+                      <motion.a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`
+                          p-2 rounded-full
+                          ${isDark ? 'bg-cyan-500 hover:bg-cyan-400' : 'bg-blue-500 hover:bg-blue-400'}
+                          text-white transition-colors duration-200
+                        `}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <ExternalLink size={16} />
+                      </motion.a>
+                    )}
+                    {project.githubUrl && project.githubUrl !== '#' && (
+                      <motion.a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`
+                          p-2 rounded-full
+                          ${isDark ? 'bg-purple-500 hover:bg-purple-400' : 'bg-purple-500 hover:bg-purple-400'}
+                          text-white transition-colors duration-200
+                        `}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Github size={16} />
+                      </motion.a>
+                    )}
                   </motion.div>
                 </div>
 
