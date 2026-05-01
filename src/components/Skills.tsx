@@ -1,8 +1,8 @@
 import React from 'react';
-import SkillFlowDiagram from './SkillFlowDiagram';
+import FuturisticSkills from './SkillFlowDiagram';
 
 const Skills: React.FC = () => {
-  return <SkillFlowDiagram />;
+  return <FuturisticSkills />;
 };
 
 export default Skills;
