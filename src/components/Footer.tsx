@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Heart, Github, Linkedin, Mail } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import { useNavigate, useLocation } from 'react-router-dom';
+
+const TERMINAL_LINES = [
+  'dhruv@portfolio:~$ git commit -m "ship it"',
+  'dhruv@portfolio:~$ npm run build',
+  'dhruv@portfolio:~$ pytest -q',
+  'dhruv@portfolio:~$ docker build -t portfolio .',
+  'dhruv@portfolio:~$ python train_model.py --epochs 20',
+  'dhruv@portfolio:~$ curl -s api/status | jq .ok',
+  'dhruv@portfolio:~$ echo "building things that matter"',
+  'dhruv@portfolio:~$ git push origin main',
+];
 
 const Footer: React.FC = () => {
   const { isDark } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const year = useMemo(() => new Date().getFullYear(), []);
+
+  // Cycled, not randomized-per-render — keeps the background stable across
+  // theme toggles instead of reshuffling every re-render.
+  const backgroundLines = useMemo(
+    () => Array.from({ length: 20 }, (_, i) => TERMINAL_LINES[i % TERMINAL_LINES.length]),
+    []
+  );
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/dhruvjindal007', label: 'GitHub' },
     { icon: Linkedin, href: 'https://linkedin.com/in/dhruv-jindal-322408294', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:jindal10dhruv@gmail.com', label: 'Email' }
+    { icon: Mail, href: 'mailto:jindal10dhruv@gmail.com', label: 'Email' },
   ];
 
   const quickLinks = [
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' }
+    { label: 'Contact', href: '#contact' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -48,11 +66,10 @@ const Footer: React.FC = () => {
     >
       {/* Terminal-style background */}
       <div className="absolute inset-0 pointer-events-none select-none opacity-5">
-        <div className={`font-mono text-xs ${isDark ? 'text-green-400' : 'text-gray-600'}`}>
-          {[...Array(20)].map((_, i) => (
+        <div className={`font-mono text-xs leading-5 ${isDark ? 'text-green-400' : 'text-gray-600'}`}>
+          {backgroundLines.map((line, i) => (
             <div key={i} className="overflow-hidden whitespace-nowrap">
-              dhruv@portfolio:~$ echo "Building amazing experiences with code" | grep -o . | head -
-              {Math.floor(Math.random() * 50) + 10}
+              {line}
             </div>
           ))}
         </div>
@@ -69,7 +86,7 @@ const Footer: React.FC = () => {
               Dhruv Jindal
             </motion.h2>
             <p className={`leading-relaxed mb-6 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              Aspiring Software Development Engineer passionate about creating exceptional digital experiences.
+              Software & AI/ML engineer passionate about creating exceptional digital experiences.
               Always learning, always building, always pushing the boundaries of modern web technologies.
             </p>
             <div className="flex items-center gap-4">
@@ -154,7 +171,7 @@ const Footer: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              © 2024 Dhruv Jindal. Made with <Heart className="w-4 h-4 text-red-500" fill="currentColor" /> and lots of ☕
+              © {year} Dhruv Jindal. Made with <Heart className="w-4 h-4 text-red-500" fill="currentColor" /> and lots of ☕
             </motion.p>
             <motion.div
               className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}

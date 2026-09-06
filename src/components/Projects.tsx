@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ExternalLink, Github, Filter } from 'lucide-react';
@@ -122,7 +122,17 @@ const Projects: React.FC = () => {
     },
   ];
 
-  const filters = ['all', 'React', 'Django', 'PHP', 'Laravel', 'Python'];
+  // Derived from the actual project data instead of a hand-typed list, so a
+  // filter is never stale or silently empty when the projects above change.
+  const filters = useMemo(() => {
+    const counts: Record<string, number> = {};
+    projects.forEach((p) => p.tech.forEach((t) => { counts[t] = (counts[t] ?? 0) + 1; }));
+    const topTech = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([tech]) => tech);
+    return ['all', ...topTech];
+  }, []);
 
   const filteredProjects = filter === 'all'
     ? projects
